@@ -45,6 +45,13 @@ steps:
       version: 'custom'
       customVersion: '$(FLUTTER_VERSION)'
 
+  - task: FlutterBuild@0
+    inputs:
+      target: 'apk'
+      projectDirectory: '.'
+      debugMode: true
+      splitPerAbi: true
+
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
     artifact: Debug Apk for armeabi-v7a
 
