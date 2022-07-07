@@ -1,21 +1,55 @@
 pool:
   vmImage: windows-2022
 
+variables:
+  #  GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
+  FLUTTER_CHANNEL: dev
+  FLUTTER_VERSION: 1.16.3
+
 steps:
+  #  - task: Cache@2
+  #    inputs:
+  #      key: 'gradleUserHome | "$(Agent.OS)" | **/build.gradle'
+  #      restoreKeys: |
+  #        gradleUserHome | "$(Agent.OS)"
+  #        gradleUserHome
+  #      path: $(GRADLE_USER_HOME)
+  #    displayName: Gradle User Home Cache
+
+  - task: Cache@2
+    inputs:
+      key: 'projectSpecificGradleCache | "$(Agent.OS)"'
+      restoreKeys: projectSpecificGradleCache
+      path: $(Build.SourcesDirectory)/android/.gradle
+    displayName: Project Specific Gradle Cache
+
+#  - task: JavaToolInstaller@0
+#    inputs:
+#      versionSpec: '11'
+#      jdkArchitectureOption: 'x64'
+#      jdkSourceOption: 'PreInstalled'
+
+  - task: Cache@2
+    inputs:
+      key: 'flutterSdk | "$(Agent.OS)"'
+      restoreKeys: |
+        flutterSdk | "$(Agent.OS)"
+        flutterSdk
+      path: 'C:/hostedtoolcache/windows/Flutter/$(FLUTTER_VERSION)/windows/flutter'
+    displayName: Flutter SDK Cache
+
   - task: FlutterInstall@0
     inputs:
       mode: 'auto'
-      channel: 'dev'
+      channel: '$(FLUTTER_CHANNEL)'
       version: 'custom'
-      customVersion: '1.16.3'
-  - task: FlutterBuild@0
-    inputs:
-      target: 'apk'
-      projectDirectory: '.'
-      debugMode: true
-      splitPerAbi: true
-  - task: PublishPipelineArtifact@1
-    inputs:
-      targetPath: '$(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-debug.apk'
-      artifact: 'Debug Apk'
-      publishLocation: 'pipeline'
+      customVersion: '$(FLUTTER_VERSION)'
+
+  - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
+    artifact: Debug Apk for armeabi-v7a
+
+  - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-arm64-v8a-debug.apk
+    artifact: Debug Apk for arm64-v8a
+
+  - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-x86_64-debug.apk
+    artifact: Debug Apk for x86_64
