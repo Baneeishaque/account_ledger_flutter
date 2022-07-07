@@ -86,14 +86,24 @@ steps:
 #    displayName: 'Tree view of C:/hostedtoolcache/windows/Flutter/$FLUTTER_VERSION/windows/flutter'
 
   - script: |
-      CD /
+      C:
       DIR Pub /S
-    displayName: 'Search for Pub Folder'
+    displayName: 'Search for Pub Folder in C:'
 
   - script: |
-      CD /
+      C:
       DIR pub /S
-    displayName: 'Search for pub Folder'
+    displayName: 'Search for pub Folder in C:'
+
+  - script: |
+      D:
+      DIR Pub /S
+    displayName: 'Search for Pub Folder in D:'
+
+  - script: |
+      D:
+      DIR pub /S
+    displayName: 'Search for pub Folder in D:'
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
     artifact: Debug Apk for armeabi-v7a
