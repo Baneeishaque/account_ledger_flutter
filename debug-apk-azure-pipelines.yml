@@ -1,0 +1,21 @@
+pool:
+  vmImage: windows-2022
+
+steps:
+  - task: FlutterInstall@0
+    inputs:
+      mode: 'auto'
+      channel: 'dev'
+      version: 'custom'
+      customVersion: '1.16.3'
+  - task: FlutterBuild@0
+    inputs:
+      target: 'apk'
+      projectDirectory: '.'
+      debugMode: true
+      splitPerAbi: true
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-debug.apk'
+      artifact: 'Debug Apk'
+      publishLocation: 'pipeline'
