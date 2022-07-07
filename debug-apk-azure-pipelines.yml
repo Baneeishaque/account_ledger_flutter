@@ -76,11 +76,14 @@ steps:
 #  - script: 'tree /f /a C:/hostedtoolcache/'
 #    displayName: 'Tree view of C:/hostedtoolcache folder'
 
-  - script: 'echo $(PUB_CACHE), $(FlutterPubCachePath)'
-    displayName: Display Flutter Pub Cache Variables
+#  - script: 'echo $(PUB_CACHE), $(FlutterPubCachePath)'
+#    displayName: Display Flutter Pub Cache Variables
 
-  - script: 'tree /f /a $(FlutterPubCachePath)'
-    displayName: 'Tree view of $FlutterPubCachePath folder'
+#  - script: 'tree /f /a $(FlutterPubCachePath)'
+#    displayName: 'Tree view of $FlutterPubCachePath folder'
+
+  - script: 'tee /f /a C:/hostedtoolcache/windows/Flutter/$(FLUTTER_VERSION)/windows/flutter'
+    displayName: 'Tree view of C:/hostedtoolcache/windows/Flutter/$FLUTTER_VERSION/windows/flutter'
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
     artifact: Debug Apk for armeabi-v7a
