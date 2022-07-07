@@ -29,14 +29,14 @@ steps:
 #      jdkArchitectureOption: 'x64'
 #      jdkSourceOption: 'PreInstalled'
 
-  - task: Cache@2
-    inputs:
-      key: 'flutterSdk | "$(Agent.OS)"'
-      restoreKeys: |
-        flutterSdk | "$(Agent.OS)"
-        flutterSdk
-      path: 'C:/hostedtoolcache/windows/Flutter/$(FLUTTER_VERSION)/windows/flutter'
-    displayName: Flutter SDK Cache
+#  - task: Cache@2
+#    inputs:
+#      key: 'flutterSdk | "$(Agent.OS)"'
+#      restoreKeys: |
+#        flutterSdk | "$(Agent.OS)"
+#        flutterSdk
+#      path: 'C:/hostedtoolcache/windows/Flutter/$(FLUTTER_VERSION)/windows/flutter'
+#    displayName: Flutter SDK Cache
 
   - task: FlutterInstall@0
     inputs:
