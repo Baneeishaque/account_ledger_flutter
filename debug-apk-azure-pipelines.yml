@@ -36,6 +36,7 @@ steps:
         flutterSdk | "$(Agent.OS)"
         flutterSdk
       path: '$(Agent.TempDirectory)'
+    displayName: Flutter SDK Cache
 
   - task: FlutterInstall@0
     inputs:
