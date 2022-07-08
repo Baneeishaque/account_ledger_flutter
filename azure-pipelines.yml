@@ -82,7 +82,9 @@ steps:
     inputs:
       target: 'ipa'
       projectDirectory: '.'
+      iosTargetPlatform: 'simulator'
       debugMode: true
+      exportOptionsPlist: 'ios/exportOptions.plist'
     condition: eq( variables['Agent.OS'], 'Darwin' )
 
   - script: 'ls -a $(Build.SourcesDirectory)/build/ios/ipa/'
