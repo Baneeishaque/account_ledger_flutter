@@ -1,0 +1,182 @@
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-22.04'
+    mac:
+      imageName: 'macOS-12'
+    windows:
+      imageName: 'windows-latest'
+
+pool:
+  vmImage: $(imageName)
+
+variables:
+  #  GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
+  FLUTTER_CHANNEL: beta
+  FLUTTER_VERSION: 3.1.0-9.0.pre
+
+steps:
+  #  - task: Cache@2
+  #    inputs:
+  #      key: 'gradleUserHome | "$(Agent.OS)" | **/build.gradle'
+  #      restoreKeys: |
+  #        gradleUserHome | "$(Agent.OS)"
+  #        gradleUserHome
+  #      path: $(GRADLE_USER_HOME)
+  #    displayName: Gradle User Home Cache
+
+  - task: Cache@2
+    inputs:
+      key: 'projectSpecificGradleCache | "$(Agent.OS)"'
+      restoreKeys: projectSpecificGradleCache
+      path: $(Build.SourcesDirectory)/android/.gradle
+    displayName: Project Specific Gradle Cache
+
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: '11'
+      jdkArchitectureOption: 'x64'
+      jdkSourceOption: 'PreInstalled'
+
+  #  - task: Cache@2
+  #    inputs:
+  #      key: 'flutterSdk | "$(Agent.OS)"'
+  #      restoreKeys: |
+  #        flutterSdk | "$(Agent.OS)"
+  #        flutterSdk
+  #      path: 'C:/hostedtoolcache/windows/Flutter/$(FLUTTER_VERSION)/windows/flutter'
+  #    displayName: Flutter SDK Cache
+
+  - task: FlutterInstall@0
+    inputs:
+      mode: 'auto'
+      channel: '$(FLUTTER_CHANNEL)'
+      version: 'custom'
+      customVersion: '$(FLUTTER_VERSION)'
+
+  #  - task: Cache@2
+  #    inputs:
+  #      key: 'flutterPubCache | "$(Agent.OS)" | **/pubspec.yaml'
+  #      restoreKeys: |
+  #        flutterPubCache | "$(Agent.OS)"
+  #        flutterPubCache
+  #      path: '$(FlutterPubCachePath)'
+  #    displayName: Flutter Pub System Cache
+
+  - task: FlutterBuild@0
+    inputs:
+      target: 'apk'
+      projectDirectory: '.'
+      debugMode: true
+      splitPerAbi: true
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
+  #  - task: FlutterBuild@0
+  #    inputs:
+  #      target: 'ios'
+  #      projectDirectory: '.'
+  #      debugMode: true
+  #    condition: eq( variables['Agent.OS'], 'Darwin' )
+
+  - task: FlutterBuild@0
+    inputs:
+      target: 'ipa'
+      projectDirectory: '.'
+      debugMode: true
+    condition: eq( variables['Agent.OS'], 'Darwin' )
+
+  - script: 'ls -a $(Build.SourcesDirectory)/build/ios/ipa/'
+    displayName: 'List Contents of $Build.SourcesDirectory/build/ios/ipa folder'
+
+  - task: FlutterBuild@0
+    inputs:
+      target: 'web'
+      projectDirectory: '.'
+      debugMode: true
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
+  - task: FlutterBuild@0
+    inputs:
+      target: 'desktop (windows)'
+      projectDirectory: '.'
+      debugMode: true
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
+  - task: FlutterBuild@0
+    inputs:
+      target: 'desktop (linux)'
+      projectDirectory: '.'
+      debugMode: true
+      splitPerAbi: true
+    condition: eq( variables['Agent.OS'], 'Linux' )
+
+  - task: FlutterBuild@0
+    inputs:
+      target: 'desktop (macos)'
+      projectDirectory: '.'
+      debugMode: true
+      splitPerAbi: true
+    condition: eq( variables['Agent.OS'], 'Darwin' )
+
+  - script: 'tree /f /a $(Build.SourcesDirectory)/build/'
+    displayName: 'Tree view of build folder'
+
+  # - script: 'tree /f /a $(Build.SourcesDirectory)'
+  #   displayName: 'Tree view of base folder'
+
+  #  - script: 'ls -a $(Build.SourcesDirectory)/build/app/outputs/apk/debug/'
+  #    displayName: 'List Contents of $Build.SourcesDirectory/build/app/outputs/apk/debug folder'
+
+  #  - script: 'tree /f /a $(Agent.TempDirectory)'
+  #    displayName: 'Tree view of $Agent.TempDirectory folder'
+
+  #  - script: 'tree /f /a $(Pipeline.Workspace)'
+  #    displayName: 'Tree view of $Pipeline.Workspace folder'
+
+  #  - script: 'tree /f /a C:/hostedtoolcache/'
+  #    displayName: 'Tree view of C:/hostedtoolcache folder'
+
+  #  - script: 'echo $(PUB_CACHE), $(FlutterPubCachePath)'
+  #    displayName: Display Flutter Pub Cache Variables
+
+  #  - script: 'tree /f /a $(FlutterPubCachePath)'
+  #    displayName: 'Tree view of $FlutterPubCachePath folder'
+
+  #  - script: 'tree /f /a C:/hostedtoolcache/windows/Flutter/$(FLUTTER_VERSION)/windows/flutter'
+  #    displayName: 'Tree view of C:/hostedtoolcache/windows/Flutter/$FLUTTER_VERSION/windows/flutter'
+
+  # - script: |
+  #     C:
+  #     DIR Pub /S
+  #   displayName: 'Search for Pub Folder in C:'
+
+  # - script: |
+  #     C:
+  #     DIR pub /S
+  #   displayName: 'Search for pub Folder in C:'
+
+  # - script: |
+  #     D:
+  #     DIR Pub /S
+  #   displayName: 'Search for Pub Folder in D:'
+
+  # - script: |
+  #     D:
+  #     DIR pub /S
+  #   displayName: 'Search for pub Folder in D:'
+
+  - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
+    artifact: Debug Apk for armeabi-v7a
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
+  - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-arm64-v8a-debug.apk
+    artifact: Debug Apk for arm64-v8a
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
+  - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-x86_64-debug.apk
+    artifact: Debug Apk for x86_64
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
+  - publish: $(Build.SourcesDirectory)/build/ios/ipa/app.ipa
+    artifact: Debug IPA for iOS
+    condition: eq( variables['Agent.OS'], 'Darwin' )
