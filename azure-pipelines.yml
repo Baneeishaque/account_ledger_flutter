@@ -123,6 +123,11 @@ steps:
 
   - script: 'tree /f /a $(Build.SourcesDirectory)/build/'
     displayName: 'Tree view of build folder'
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
+  - script: 'tree $(Build.SourcesDirectory)/build/'
+    displayName: 'Tree view of build folder'
+    condition: ne( variables['Agent.OS'], 'Windows_NT' )
 
   # - script: 'tree /f /a $(Build.SourcesDirectory)'
   #   displayName: 'Tree view of base folder'
