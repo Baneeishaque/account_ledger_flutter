@@ -141,7 +141,7 @@ steps:
 
   - script: 'tree $(Build.SourcesDirectory)'
     displayName: 'Tree view of base folder'
-    condition: ne( variables['Agent.OS'], 'Windows_NT' )
+    condition: eq( variables['Agent.OS'], 'Linux' )
 
   #  - script: 'ls -a $(Build.SourcesDirectory)/build/app/outputs/apk/debug/'
   #    displayName: 'List Contents of $Build.SourcesDirectory/build/app/outputs/apk/debug folder'
