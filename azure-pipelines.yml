@@ -79,19 +79,19 @@ steps:
   #      debugMode: true
   #    condition: eq( variables['Agent.OS'], 'Darwin' )
 
-  - task: FlutterBuild@0
-    inputs:
-      target: 'ipa'
-      projectDirectory: '.'
-      iosTargetPlatform: 'simulator'
-      debugMode: true
-#      exportOptionsPlist: 'ios/exportOptions.plist'
-    displayName: Build IPA on macOS
-    condition: eq( variables['Agent.OS'], 'Darwin' )
+#  - task: FlutterBuild@0
+#    inputs:
+#      target: 'ipa'
+#      projectDirectory: '.'
+#      iosTargetPlatform: 'simulator'
+#      debugMode: true
+##      exportOptionsPlist: 'ios/exportOptions.plist'
+#    displayName: Build IPA on macOS
+#    condition: eq( variables['Agent.OS'], 'Darwin' )
 
-  - script: 'ls -a $(Build.SourcesDirectory)/build/ios/ipa/'
-    displayName: 'List Contents of $Build.SourcesDirectory/build/ios/ipa folder'
-    condition: eq( variables['Agent.OS'], 'Darwin' )
+#  - script: 'ls -a $(Build.SourcesDirectory)/build/ios/ipa/'
+#    displayName: 'List Contents of $Build.SourcesDirectory/build/ios/ipa folder'
+#    condition: eq( variables['Agent.OS'], 'Darwin' )
 
   - task: FlutterBuild@0
     inputs:
@@ -199,7 +199,7 @@ steps:
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     displayName: Publish APK for x86_64 on Windows
 
-  - publish: $(Build.SourcesDirectory)/build/ios/ipa/app.ipa
-    artifact: Debug IPA for iOS
-    condition: eq( variables['Agent.OS'], 'Darwin' )
-    displayName: Publish IPA on macOS
+#  - publish: $(Build.SourcesDirectory)/build/ios/ipa/app.ipa
+#    artifact: Debug IPA for iOS
+#    condition: eq( variables['Agent.OS'], 'Darwin' )
+#    displayName: Publish IPA on macOS
