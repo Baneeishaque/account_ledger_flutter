@@ -69,6 +69,7 @@ steps:
       projectDirectory: '.'
       debugMode: true
       splitPerAbi: true
+    displayName: Build APK on Windows
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
   #  - task: FlutterBuild@0
@@ -85,6 +86,7 @@ steps:
       iosTargetPlatform: 'simulator'
       debugMode: true
       exportOptionsPlist: 'ios/exportOptions.plist'
+    displayName: Build IPA on macOS
     condition: eq( variables['Agent.OS'], 'Darwin' )
 
   - script: 'ls -a $(Build.SourcesDirectory)/build/ios/ipa/'
@@ -96,6 +98,7 @@ steps:
       target: 'web'
       projectDirectory: '.'
       debugMode: true
+    displayName: Build Web on Windows
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
   - task: FlutterBuild@0
@@ -103,6 +106,7 @@ steps:
       target: 'desktop (windows)'
       projectDirectory: '.'
       debugMode: true
+    displayName: Build Desktop on Windows
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
   - task: FlutterBuild@0
@@ -111,6 +115,7 @@ steps:
       projectDirectory: '.'
       debugMode: true
       splitPerAbi: true
+    displayName: Build Desktop on Linux
     condition: eq( variables['Agent.OS'], 'Linux' )
 
   - task: FlutterBuild@0
@@ -119,6 +124,7 @@ steps:
       projectDirectory: '.'
       debugMode: true
       splitPerAbi: true
+    displayName: Build Desktop on macOS
     condition: eq( variables['Agent.OS'], 'Darwin' )
 
   - script: 'tree /f /a $(Build.SourcesDirectory)/build/'
