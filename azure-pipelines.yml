@@ -85,7 +85,7 @@ steps:
       projectDirectory: '.'
       iosTargetPlatform: 'simulator'
       debugMode: true
-      exportOptionsPlist: 'ios/exportOptions.plist'
+#      exportOptionsPlist: 'ios/exportOptions.plist'
     displayName: Build IPA on macOS
     condition: eq( variables['Agent.OS'], 'Darwin' )
 
@@ -182,15 +182,19 @@ steps:
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
     artifact: Debug Apk for armeabi-v7a
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: Publish APK for ARM-EABI-v7A on Windows
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-arm64-v8a-debug.apk
     artifact: Debug Apk for arm64-v8a
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: Publish APK for ARM64-v8A on Windows
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-x86_64-debug.apk
     artifact: Debug Apk for x86_64
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: Publish APK for x86_64 on Windows
 
   - publish: $(Build.SourcesDirectory)/build/ios/ipa/app.ipa
     artifact: Debug IPA for iOS
     condition: eq( variables['Agent.OS'], 'Darwin' )
+    displayName: Publish IPA on macOS
