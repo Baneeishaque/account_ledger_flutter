@@ -14,10 +14,6 @@ dependencies:
 
 
   cupertino_icons: ^1.0.5
-  gradient_app_bar:
-    git:
-      url: https://github.com/david-macharia/GradientAppBar.git
-  beauty_textfield: ^0.0.1
   gradient_input_border:
     git:
       url: https://github.com/alessandrofavero/flutter-gradient-input-border.git

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gradient_app_bar/gradient_app_bar.dart';
 
 import 'LoginForm.dart';
 
@@ -14,10 +13,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GradientAppBar(
-          title: Text('Account Ledger : Authentication'),
-          gradient:
-              LinearGradient(colors: [Colors.blue, Colors.purple, Colors.red])),
+      appBar: AppBar(title: Text('Account Ledger : Authentication')),
       body: LoginForm(),
     );
   }
