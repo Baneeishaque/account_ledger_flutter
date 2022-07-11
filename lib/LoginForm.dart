@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:getflutter/components/button/gf_button.dart';
+import 'package:getwidget/components/button/gf_button.dart';
 import 'package:gradient_input_border/gradient_input_border.dart';
 
 import 'http_service.dart';
@@ -41,7 +41,7 @@ class LoginFormState extends State<LoginForm> {
                             ),
                             labelText: 'Username...'),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Please enter username...';
                           }
                           return null;
@@ -64,7 +64,7 @@ class LoginFormState extends State<LoginForm> {
                             ),
                             labelText: 'Passcode...'),
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return 'Please enter passcode...';
                           }
                           return null;
@@ -74,13 +74,13 @@ class LoginFormState extends State<LoginForm> {
                     padding: EdgeInsets.only(top: 11.0, bottom: 16.0),
                     child: GFButton(
                       onPressed: () {
-                        if (_formKey.currentState.validate()) {
+                        if (_formKey.currentState!.validate()) {
                           FutureBuilder(
                             future: httpService.getPosts(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<List<Post>> snapshot) {
                               if (snapshot.hasData) {
-                                List<Post> posts = snapshot.data;
+                                List<Post> posts = snapshot.data!;
                                 return ListView(
                                   children: posts
                                       .map(

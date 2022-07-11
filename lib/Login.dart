@@ -4,7 +4,7 @@ import 'package:gradient_app_bar/gradient_app_bar.dart';
 import 'LoginForm.dart';
 
 class Login extends StatefulWidget {
-  Login({Key key}) : super(key: key);
+  Login({Key? key}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
