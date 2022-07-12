@@ -45,6 +45,14 @@ steps:
       version: 'custom'
       customVersion: '$(FLUTTER_VERSION)'
 
+  - task: Cache@2
+    inputs:
+      key: 'flutter | "$(Agent.OS)" | **/pubspec.yaml'
+      restoreKeys: |
+        flutter | "$(Agent.OS)"
+        flutter
+      path: '$(FlutterPubCachePath)'
+
   - task: FlutterBuild@0
     inputs:
       target: 'apk'
@@ -73,5 +81,5 @@ steps:
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-x86_64-debug.apk
     artifact: Debug Apk for x86_64
 
-  - script: 'gradle --stop'
-    displayName: Stop Gradle Daemon
+  # - script: 'gradle --stop'
+  #   displayName: Stop Gradle Daemon
