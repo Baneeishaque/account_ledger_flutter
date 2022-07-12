@@ -45,14 +45,14 @@ steps:
       version: 'custom'
       customVersion: '$(FLUTTER_VERSION)'
 
-  - task: Cache@2
-    inputs:
-      key: 'flutterPubCache | "$(Agent.OS)" | **/pubspec.yaml'
-      restoreKeys: |
-        flutterPubCache | "$(Agent.OS)"
-        flutterPubCache
-      path: '$(FlutterPubCachePath)'
-    displayName: Flutter Pub System Cache
+#  - task: Cache@2
+#    inputs:
+#      key: 'flutterPubCache | "$(Agent.OS)" | **/pubspec.yaml'
+#      restoreKeys: |
+#        flutterPubCache | "$(Agent.OS)"
+#        flutterPubCache
+#      path: '$(FlutterPubCachePath)'
+#    displayName: Flutter Pub System Cache
 
   - task: FlutterBuild@0
     inputs:
@@ -70,8 +70,11 @@ steps:
   #  - script: 'tree /f /a $(Agent.TempDirectory)'
   #    displayName: 'Tree view of $(Agent.TempDirectory) folder'
 
-  #  - script: 'tree /f /a $(Pipeline.Workspace)'
-  #    displayName: 'Tree view of $(Pipeline.Workspace) folder'
+  - script: 'tree /f /a $(Pipeline.Workspace)'
+    displayName: 'Tree view of $(Pipeline.Workspace) folder'
+
+  - script : 'tree /f /a C:/hostedtoolcache/'
+    displayName: 'Tree view of C:/hostedtoolcache folder'
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
     artifact: Debug Apk for armeabi-v7a
