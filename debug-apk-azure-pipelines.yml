@@ -7,14 +7,14 @@ variables:
   FLUTTER_VERSION: 3.1.0-9.0.pre
 
 steps:
-  - task: Cache@2
-    inputs:
-      key: 'gradleUserHome | "$(Agent.OS)" | **/build.gradle'
-      restoreKeys: |
-        gradleUserHome | "$(Agent.OS)"
-        gradleUserHome
-      path: $(GRADLE_USER_HOME)
-    displayName: Gradle User Home Cache
+#  - task: Cache@2
+#    inputs:
+#      key: 'gradleUserHome | "$(Agent.OS)" | **/build.gradle'
+#      restoreKeys: |
+#        gradleUserHome | "$(Agent.OS)"
+#        gradleUserHome
+#      path: $(GRADLE_USER_HOME)
+#    displayName: Gradle User Home Cache
 
   - task: Cache@2
     inputs:
@@ -35,7 +35,7 @@ steps:
       restoreKeys: |
         flutterSdk | "$(Agent.OS)"
         flutterSdk
-      path: '$(Agent.TempDirectory)'
+      path: 'C:/hostedtoolcache/windows/Flutter/$(FLUTTER_VERSION)/windows/flutter'
     displayName: Flutter SDK Cache
 
   - task: FlutterInstall@0
@@ -73,8 +73,8 @@ steps:
   - script: 'tree /f /a $(Pipeline.Workspace)'
     displayName: 'Tree view of $(Pipeline.Workspace) folder'
 
-  - script : 'tree /f /a C:/hostedtoolcache/'
-    displayName: 'Tree view of C:/hostedtoolcache folder'
+#  - script : 'tree /f /a C:/hostedtoolcache/'
+#    displayName: 'Tree view of C:/hostedtoolcache folder'
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
     artifact: Debug Apk for armeabi-v7a
