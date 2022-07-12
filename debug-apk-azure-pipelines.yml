@@ -65,16 +65,22 @@ steps:
   #   displayName: 'Tree view of build folder'
 
   #  - script: 'ls -a $(Build.SourcesDirectory)/build/app/outputs/apk/debug/'
-  #    displayName: 'List Contents of $(Build.SourcesDirectory)/build/app/outputs/apk/debug folder'
+  #    displayName: 'List Contents of $Build.SourcesDirectory/build/app/outputs/apk/debug folder'
 
   #  - script: 'tree /f /a $(Agent.TempDirectory)'
-  #    displayName: 'Tree view of $(Agent.TempDirectory) folder'
+  #    displayName: 'Tree view of $Agent.TempDirectory folder'
 
-  - script: 'tree /f /a $(Pipeline.Workspace)'
-    displayName: 'Tree view of $(Pipeline.Workspace) folder'
+#  - script: 'tree /f /a $(Pipeline.Workspace)'
+#    displayName: 'Tree view of $Pipeline.Workspace folder'
 
 #  - script : 'tree /f /a C:/hostedtoolcache/'
 #    displayName: 'Tree view of C:/hostedtoolcache folder'
+
+  - script: 'echo $(PUB_CACHE), $(FlutterPubCachePath)'
+    displayName: Display Flutter Pub Cache Variables
+
+  - script: 'tree /f /a $(FlutterPubCachePath)'
+    displayName: 'Tree view of $FlutterPubCachePath folder'
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
     artifact: Debug Apk for armeabi-v7a
@@ -84,6 +90,3 @@ steps:
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-x86_64-debug.apk
     artifact: Debug Apk for x86_64
-
-  # - script: 'gradle --stop'
-  #   displayName: Stop Gradle Daemon
