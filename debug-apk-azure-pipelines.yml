@@ -7,14 +7,14 @@ variables:
   FLUTTER_VERSION: 3.1.0-9.0.pre
 
 steps:
-  #  - task: Cache@2
-  #    inputs:
-  #      key: 'gradleUserHome | "$(Agent.OS)" | **/build.gradle'
-  #      restoreKeys: |
-  #        gradleUserHome | "$(Agent.OS)"
-  #        gradleUserHome
-  #      path: $(GRADLE_USER_HOME)
-  #    displayName: Gradle User Home Cache
+  - task: Cache@2
+    inputs:
+      key: 'gradle | "$(Agent.OS)" | **/build.gradle'
+      restoreKeys: |
+        gradle | "$(Agent.OS)"
+        gradle
+      path: $(GRADLE_USER_HOME)
+    displayName: Gradle User Home Cache
 
   - task: Cache@2
     inputs:
@@ -55,14 +55,14 @@ steps:
   # - script: 'tree /f /a $(Build.SourcesDirectory)'
   #   displayName: 'Tree view of build folder'
 
-#  - script: 'ls -a $(Build.SourcesDirectory)/build/app/outputs/apk/debug/'
-#    displayName: 'List Contents of $(Build.SourcesDirectory)/build/app/outputs/apk/debug folder'
+  #  - script: 'ls -a $(Build.SourcesDirectory)/build/app/outputs/apk/debug/'
+  #    displayName: 'List Contents of $(Build.SourcesDirectory)/build/app/outputs/apk/debug folder'
 
-#  - script: 'tree /f /a $(Agent.TempDirectory)'
-#    displayName: 'Tree view of $(Agent.TempDirectory) folder'
+  #  - script: 'tree /f /a $(Agent.TempDirectory)'
+  #    displayName: 'Tree view of $(Agent.TempDirectory) folder'
 
-#  - script: 'tree /f /a $(Pipeline.Workspace)'
-#    displayName: 'Tree view of $(Pipeline.Workspace) folder'
+  #  - script: 'tree /f /a $(Pipeline.Workspace)'
+  #    displayName: 'Tree view of $(Pipeline.Workspace) folder'
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
     artifact: Debug Apk for armeabi-v7a
