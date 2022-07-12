@@ -3,6 +3,8 @@ import 'package:getwidget/components/progress_bar/gf_progress_bar.dart';
 import 'package:getwidget/colors/gf_color.dart';
 
 class LoginForm3 extends StatefulWidget {
+  const LoginForm3({super.key});
+
   @override
   LoginForm3State createState() {
     return LoginForm3State();

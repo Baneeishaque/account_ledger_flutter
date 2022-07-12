@@ -6,6 +6,8 @@ import 'http_service.dart';
 import 'posts_model.dart';
 
 class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
+
   @override
   LoginFormState createState() {
     return LoginFormState();
@@ -21,17 +23,17 @@ class LoginFormState extends State<LoginForm> {
     return Form(
         key: _formKey,
         child: Padding(
-            padding: EdgeInsets.only(left: 16.0, right: 16.0),
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                      padding: EdgeInsets.only(top: 16.0),
+                      padding: const EdgeInsets.only(top: 16.0),
                       child: TextFormField(
                         autofocus: true,
                         textAlign: TextAlign.center,
                         textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.person),
                             border: GradientOutlineInputBorder(
                               focusedGradient: LinearGradient(
@@ -48,12 +50,12 @@ class LoginFormState extends State<LoginForm> {
                         },
                       )),
                   Padding(
-                      padding: EdgeInsets.only(top: 16.0),
+                      padding: const EdgeInsets.only(top: 16.0),
                       child: TextFormField(
                         textAlign: TextAlign.center,
                         obscureText: true,
                         textInputAction: TextInputAction.done,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.vpn_key),
                             suffixIcon: Icon(Icons.remove_red_eye),
                             border: GradientOutlineInputBorder(
@@ -71,7 +73,7 @@ class LoginFormState extends State<LoginForm> {
                         },
                       )),
                   Padding(
-                    padding: EdgeInsets.only(top: 11.0, bottom: 16.0),
+                    padding: const EdgeInsets.only(top: 11.0, bottom: 16.0),
                     child: GFButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
@@ -92,7 +94,7 @@ class LoginFormState extends State<LoginForm> {
                                       .toList(),
                                 );
                               } else {
-                                return Center(
+                                return const Center(
                                     child: CircularProgressIndicator());
                               }
                             },
