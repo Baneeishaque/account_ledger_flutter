@@ -55,17 +55,14 @@ steps:
   # - script: 'tree /f /a $(Build.SourcesDirectory)'
   #   displayName: 'Tree view of build folder'
 
-  - script: 'ls -a $(Build.SourcesDirectory)/build/app/outputs/apk/debug/'
-    displayName: 'List Contents of $(Build.SourcesDirectory)/build/app/outputs/apk/debug folder'
+#  - script: 'ls -a $(Build.SourcesDirectory)/build/app/outputs/apk/debug/'
+#    displayName: 'List Contents of $(Build.SourcesDirectory)/build/app/outputs/apk/debug folder'
 
 #  - script: 'tree /f /a $(Agent.TempDirectory)'
 #    displayName: 'Tree view of $(Agent.TempDirectory) folder'
 
-  - script: 'tree /f /a $(Pipeline.Workspace)'
-    displayName: 'Tree view of $(Pipeline.Workspace) folder'
-
-#  - publish: cli-app/build/distributions/Account-Ledger-Cli.tar.gz
-#    artifact: Account-Ledger-CLI
+#  - script: 'tree /f /a $(Pipeline.Workspace)'
+#    displayName: 'Tree view of $(Pipeline.Workspace) folder'
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
     artifact: Debug Apk for armeabi-v7a
