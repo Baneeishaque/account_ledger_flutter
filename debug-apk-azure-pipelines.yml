@@ -52,6 +52,11 @@ steps:
       debugMode: true
       splitPerAbi: true
 
+  - task: CmdLine@2
+    inputs:
+      script: 'tree $(Build.SourcesDirectory)'
+    displayName: 'Tree view of build folder'
+
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
     artifact: Debug Apk for armeabi-v7a
 
