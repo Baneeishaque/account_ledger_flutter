@@ -62,7 +62,7 @@ steps:
       splitPerAbi: true
 
   # - script: 'tree /f /a $(Build.SourcesDirectory)'
-  #   displayName: 'Tree view of build folder'
+  #   displayName: 'Tree view of base folder'
 
   #  - script: 'ls -a $(Build.SourcesDirectory)/build/app/outputs/apk/debug/'
   #    displayName: 'List Contents of $Build.SourcesDirectory/build/app/outputs/apk/debug folder'
