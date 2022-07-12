@@ -52,15 +52,14 @@ steps:
       debugMode: true
       splitPerAbi: true
 
-  # - task: CmdLine@2
-  #   inputs:
-  #     script: 'tree $(Build.SourcesDirectory)'
+  # - task: script: 'tree $(Build.SourcesDirectory)'
   #   displayName: 'Tree view of build folder'
 
-  - task: CmdLine@2
-    inputs:
-      script: 'ls -a $(Build.SourcesDirectory)/build/app/outputs/apk/debug/'
+  - script: 'ls -a $(Build.SourcesDirectory)/build/app/outputs/apk/debug/'
     displayName: 'List Contents of $(Build.SourcesDirectory)/build/app/outputs/apk/debug folder'
+
+  - script: 'tree $(Agent.TempDirectory)'
+    displayName: 'List Contents of $(Agent.TempDirectory) folder'
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
     artifact: Debug Apk for armeabi-v7a
@@ -70,3 +69,6 @@ steps:
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-x86_64-debug.apk
     artifact: Debug Apk for x86_64
+
+  - script: 'gradle --stop'
+    displayName: Stop Gradle Daemon
