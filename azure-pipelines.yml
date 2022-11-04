@@ -25,7 +25,7 @@ steps:
   #      path: $(GRADLE_USER_HOME)
   #    displayName: Gradle User Home Cache
 
-  - task: Cache@2
+  - task: Cache@2.198.0
     inputs:
       key: 'projectSpecificGradleCache | "$(Agent.OS)"'
       restoreKeys: projectSpecificGradleCache
