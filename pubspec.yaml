@@ -39,7 +39,7 @@ dependencies:
       url: https://github.com/alessandrofavero/flutter-gradient-input-border.git
       ref: null-safety
   http: ^0.13.4
-  getwidget: ^3.0.1
+  getwidget: ^5.0.0
   minimize_app:
     git:
       url: https://github.com/Vanethos/minimize_app_plugin.git
