@@ -25,7 +25,7 @@ Based on analysis of the repository, the following topics are recommended:
 | `linux` | Linux desktop support |
 | `macos` | macOS desktop support |
 | `cross-platform` | Multi-platform application |
-| `multiplatform` | Same as cross-platform |
+| `http` | HTTP client/API usage |
 | `mobile` | Mobile application |
 | `desktop` | Desktop application |
 
@@ -53,7 +53,7 @@ Based on analysis of the repository, the following topics are recommended:
 ## Complete List of Recommended Topics
 
 ```
-flutter, dart, flutter-app, material-design, android, ios, web, windows, linux, macos, cross-platform, mobile, desktop, accounting, ledger, finance, account-management, getwidget, azure-pipelines
+flutter, dart, flutter-app, material-design, android, ios, web, windows, linux, macos, cross-platform, mobile, desktop, accounting, ledger, finance, account-management, getwidget, azure-pipelines, http
 ```
 
 **Top 20 Topics (GitHub allows maximum 20 topics):**
@@ -76,7 +76,7 @@ flutter, dart, flutter-app, material-design, android, ios, web, windows, linux, 
 17. account-management
 18. getwidget
 19. azure-pipelines
-20. multiplatform
+20. http
 
 ---
 
@@ -115,7 +115,27 @@ gh auth login
 
 ```bash
 # Add all recommended topics
-gh repo edit Baneeishaque/account_ledger_flutter --add-topic flutter --add-topic dart --add-topic flutter-app --add-topic material-design --add-topic android --add-topic ios --add-topic web --add-topic windows --add-topic linux --add-topic macos --add-topic cross-platform --add-topic mobile --add-topic desktop --add-topic accounting --add-topic ledger --add-topic finance --add-topic account-management --add-topic getwidget --add-topic azure-pipelines --add-topic multiplatform
+gh repo edit Baneeishaque/account_ledger_flutter \
+  --add-topic flutter \
+  --add-topic dart \
+  --add-topic flutter-app \
+  --add-topic material-design \
+  --add-topic android \
+  --add-topic ios \
+  --add-topic web \
+  --add-topic windows \
+  --add-topic linux \
+  --add-topic macos \
+  --add-topic cross-platform \
+  --add-topic mobile \
+  --add-topic desktop \
+  --add-topic accounting \
+  --add-topic ledger \
+  --add-topic finance \
+  --add-topic account-management \
+  --add-topic getwidget \
+  --add-topic azure-pipelines \
+  --add-topic http
 ```
 
 #### Individual Topic Commands
@@ -141,7 +161,7 @@ gh repo edit Baneeishaque/account_ledger_flutter --add-topic finance
 gh repo edit Baneeishaque/account_ledger_flutter --add-topic account-management
 gh repo edit Baneeishaque/account_ledger_flutter --add-topic getwidget
 gh repo edit Baneeishaque/account_ledger_flutter --add-topic azure-pipelines
-gh repo edit Baneeishaque/account_ledger_flutter --add-topic multiplatform
+gh repo edit Baneeishaque/account_ledger_flutter --add-topic http
 ```
 
 #### Remove a Topic
@@ -176,7 +196,7 @@ curl -X PUT \
   -H "Authorization: Bearer $GITHUB_TOKEN" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/repos/Baneeishaque/account_ledger_flutter/topics \
-  -d '{"names":["flutter","dart","flutter-app","material-design","android","ios","web","windows","linux","macos","cross-platform","mobile","desktop","accounting","ledger","finance","account-management","getwidget","azure-pipelines","multiplatform"]}'
+  -d '{"names":["flutter","dart","flutter-app","material-design","android","ios","web","windows","linux","macos","cross-platform","mobile","desktop","accounting","ledger","finance","account-management","getwidget","azure-pipelines","http"]}'
 ```
 
 #### Get Current Topics via API
@@ -204,7 +224,7 @@ curl -X POST \
     "query": "mutation($repositoryId: ID!, $topicNames: [String!]!) { updateTopics(input: {repositoryId: $repositoryId, topicNames: $topicNames}) { repository { repositoryTopics(first: 20) { nodes { topic { name } } } } } }",
     "variables": {
       "repositoryId": "<repository-node-id>",
-      "topicNames": ["flutter", "dart", "flutter-app", "material-design", "android", "ios", "web", "windows", "linux", "macos", "cross-platform", "mobile", "desktop", "accounting", "ledger", "finance", "account-management", "getwidget", "azure-pipelines", "multiplatform"]
+      "topicNames": ["flutter", "dart", "flutter-app", "material-design", "android", "ios", "web", "windows", "linux", "macos", "cross-platform", "mobile", "desktop", "accounting", "ledger", "finance", "account-management", "getwidget", "azure-pipelines", "http"]
     }
   }'
 ```
@@ -228,7 +248,7 @@ curl -H "Authorization: Bearer $GITHUB_TOKEN" \
 
 **Topics to paste:**
 ```
-flutter dart flutter-app material-design android ios web windows linux macos cross-platform mobile desktop accounting ledger finance account-management getwidget azure-pipelines multiplatform
+flutter dart flutter-app material-design android ios web windows linux macos cross-platform mobile desktop accounting ledger finance account-management getwidget azure-pipelines http
 ```
 
 ---
@@ -250,7 +270,7 @@ topics = [
     "android", "ios", "web", "windows", "linux", "macos",
     "cross-platform", "mobile", "desktop", "accounting",
     "ledger", "finance", "account-management", "getwidget",
-    "azure-pipelines", "multiplatform"
+    "azure-pipelines", "http"
 ]
 
 repo.replace_topics(topics)
@@ -282,7 +302,7 @@ async function updateTopics() {
       "android", "ios", "web", "windows", "linux", "macos",
       "cross-platform", "mobile", "desktop", "accounting",
       "ledger", "finance", "account-management", "getwidget",
-      "azure-pipelines", "multiplatform"
+      "azure-pipelines", "http"
     ]
   });
   console.log("Topics updated successfully!");
@@ -325,7 +345,7 @@ jobs:
                 "android", "ios", "web", "windows", "linux", "macos",
                 "cross-platform", "mobile", "desktop", "accounting",
                 "ledger", "finance", "account-management", "getwidget",
-                "azure-pipelines", "multiplatform"
+                "azure-pipelines", "http"
               ]
             });
             console.log("Topics updated successfully!");
@@ -351,12 +371,24 @@ jobs:
 
 ### GitHub CLI (Recommended)
 ```bash
-gh repo edit Baneeishaque/account_ledger_flutter --add-topic flutter --add-topic dart --add-topic flutter-app --add-topic material-design --add-topic android --add-topic ios --add-topic web --add-topic windows --add-topic linux --add-topic macos --add-topic cross-platform --add-topic mobile --add-topic desktop --add-topic accounting --add-topic ledger --add-topic finance --add-topic account-management --add-topic getwidget --add-topic azure-pipelines --add-topic multiplatform
+gh repo edit Baneeishaque/account_ledger_flutter \
+  --add-topic flutter --add-topic dart --add-topic flutter-app \
+  --add-topic material-design --add-topic android --add-topic ios \
+  --add-topic web --add-topic windows --add-topic linux --add-topic macos \
+  --add-topic cross-platform --add-topic mobile --add-topic desktop \
+  --add-topic accounting --add-topic ledger --add-topic finance \
+  --add-topic account-management --add-topic getwidget \
+  --add-topic azure-pipelines --add-topic http
 ```
 
 ### cURL with REST API
 ```bash
-curl -X PUT -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/Baneeishaque/account_ledger_flutter/topics -d '{"names":["flutter","dart","flutter-app","material-design","android","ios","web","windows","linux","macos","cross-platform","mobile","desktop","accounting","ledger","finance","account-management","getwidget","azure-pipelines","multiplatform"]}'
+curl -X PUT \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer $GITHUB_TOKEN" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/repos/Baneeishaque/account_ledger_flutter/topics \
+  -d '{"names":["flutter","dart","flutter-app","material-design","android","ios","web","windows","linux","macos","cross-platform","mobile","desktop","accounting","ledger","finance","account-management","getwidget","azure-pipelines","http"]}'
 ```
 
 ---
