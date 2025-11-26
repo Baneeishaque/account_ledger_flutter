@@ -6,6 +6,8 @@ This document provides suggested GitHub topics/tags for the `account_ledger_flut
 
 Based on analysis of the repository, the following topics are recommended:
 
+> **Note:** The tables below list all possible relevant topics. The final 20 recommended topics are listed in the [Complete List of Recommended Topics](#complete-list-of-recommended-topics) section.
+
 ### Primary Topics (Technology Stack)
 | Topic | Description |
 |-------|-------------|
