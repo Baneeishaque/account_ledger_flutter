@@ -129,6 +129,11 @@ steps:
     displayName: Build Desktop on macOS
     condition: eq( variables['Agent.OS'], 'Darwin' )
 
+  - publish: $(Build.SourcesDirectory)/build/linux/x64/debug/bundle
+    artifact: Debug Linux Desktop App
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    displayName: Publish Linux Desktop App
+
 #  - script: 'tree /f /a $(Build.SourcesDirectory)/build/'
 #    displayName: 'Tree view of build folder'
 #    condition: eq( variables['Agent.OS'], 'Windows_NT' )
