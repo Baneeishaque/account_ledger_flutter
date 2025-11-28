@@ -117,11 +117,10 @@ steps:
     displayName: Install Linux Desktop Dependencies
     condition: eq( variables['Agent.OS'], 'Linux' )
 
-  - task: FlutterBuild@0
-    inputs:
-      target: 'desktop (linux)'
-      projectDirectory: '.'
-      debugMode: true
+  - script: |
+      export PATH="$PATH:$(FlutterToolPath)/flutter/bin"
+      flutter config --enable-linux-desktop
+      flutter build linux --debug
     displayName: Build Desktop on Linux
     condition: eq( variables['Agent.OS'], 'Linux' )
 
