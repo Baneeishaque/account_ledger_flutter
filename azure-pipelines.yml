@@ -120,7 +120,14 @@ steps:
     displayName: Build Desktop on Linux
     condition: eq( variables['Agent.OS'], 'Linux' )
 
-  - script: 'flutter build macos --debug'
+  - script: |
+      flutter pub get
+      # Fix Ruby 3.2+ compatibility issue in Flutter-generated Podfile
+      # File.exists? was removed in Ruby 3.2, replaced with File.exist?
+      if [ -f "macos/Podfile" ]; then
+        sed -i '' 's/File\.exists?/File.exist?/g' macos/Podfile
+      fi
+      flutter build macos --debug
     displayName: Build Desktop on macOS
     condition: eq( variables['Agent.OS'], 'Darwin' )
 
