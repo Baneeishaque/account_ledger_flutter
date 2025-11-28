@@ -3,7 +3,7 @@ strategy:
     linux:
       imageName: 'ubuntu-22.04'
     mac:
-      imageName: 'macOS-12'
+      imageName: 'macOS-14'
     windows:
       imageName: 'windows-latest'
 
