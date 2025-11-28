@@ -46,3 +46,25 @@ app.*.map.json
 /.idea/workspace.xml
 /.idea/libraries/Dart_SDK.xml
 /.idea/libraries/Dart_Packages.xml
+
+*.iml
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+.dart_tool/
+.packages
+build/
+
+# Remember to never publicly share your keystore.
+# See https://flutter.dev/docs/deployment/android#reference-the-keystore-from-the-app
+key.properties
+**/*.keystore
+**/*.jks
