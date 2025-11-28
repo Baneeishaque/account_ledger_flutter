@@ -120,13 +120,12 @@ steps:
     displayName: Build Desktop on Linux
     condition: eq( variables['Agent.OS'], 'Linux' )
 
-  - task: FlutterBuild@0
-    inputs:
-      target: 'desktop (macos)'
-      projectDirectory: '.'
-      debugMode: true
-      splitPerAbi: true
+  - script: 'flutter build macos --debug'
     displayName: Build Desktop on macOS
+    condition: eq( variables['Agent.OS'], 'Darwin' )
+
+  - script: 'ls -la $(Build.SourcesDirectory)/build/macos/Build/Products/Debug/'
+    displayName: List macOS Build Output
     condition: eq( variables['Agent.OS'], 'Darwin' )
 
 #  - script: 'tree /f /a $(Build.SourcesDirectory)/build/'
