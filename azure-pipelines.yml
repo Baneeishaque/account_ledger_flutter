@@ -118,7 +118,6 @@ steps:
     condition: eq( variables['Agent.OS'], 'Linux' )
 
   - script: |
-      export PATH="$PATH:$(FlutterToolPath)/flutter/bin"
       flutter config --enable-linux-desktop
       flutter build linux --debug
     displayName: Build Desktop on Linux
