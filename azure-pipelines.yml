@@ -37,6 +37,14 @@ steps:
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     displayName: Project Specific Gradle Cache
 
+  - script: mkdir -p $(PUB_CACHE)
+    displayName: Create Pub Cache Directory (Unix)
+    condition: ne( variables['Agent.OS'], 'Windows_NT' )
+
+  - script: if not exist "$(PUB_CACHE)" mkdir "$(PUB_CACHE)"
+    displayName: Create Pub Cache Directory (Windows)
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
   - task: Cache@2
     inputs:
       key: 'flutterPubCache | "$(Agent.OS)" | pubspec.yaml | pubspec.lock'
