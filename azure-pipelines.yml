@@ -103,10 +103,10 @@ steps:
 #    displayName: Build Web on Windows
 #    condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
-  - script: |
-      $(FlutterToolPath)/flutter build web --wasm
+  - script: $(FlutterToolPath)/flutter build web --wasm
     displayName: Build Web with WebAssembly on Windows
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    failOnStderr: false
 
   - task: FlutterBuild@0
     inputs:
