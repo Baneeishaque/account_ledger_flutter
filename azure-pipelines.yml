@@ -100,8 +100,38 @@ steps:
       target: 'web'
       projectDirectory: '.'
       debugMode: true
-    displayName: Build Web on Windows
+    displayName: Build Web Debug on Windows
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
+  - publish: $(Build.SourcesDirectory)/build/web
+    artifact: Debug Web Build
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: Publish Web Debug Build on Windows
+
+  - task: FlutterBuild@0
+    inputs:
+      target: 'web'
+      projectDirectory: '.'
+      profileMode: true
+    displayName: Build Web Profile on Windows
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
+  - publish: $(Build.SourcesDirectory)/build/web
+    artifact: Profile Web Build
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: Publish Web Profile Build on Windows
+
+  - task: FlutterBuild@0
+    inputs:
+      target: 'web'
+      projectDirectory: '.'
+    displayName: Build Web Release on Windows
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
+  - publish: $(Build.SourcesDirectory)/build/web
+    artifact: Release Web Build
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: Publish Web Release Build on Windows
 
   - task: FlutterBuild@0
     inputs:
