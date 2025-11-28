@@ -150,13 +150,6 @@ steps:
     displayName: Build Desktop on macOS
     condition: eq( variables['Agent.OS'], 'Darwin' )
 
-  - script: |
-      echo "Listing Linux build output..."
-      find $(LINUX_BUNDLE_PATH) -type f 2>/dev/null || echo "No linux build directory found"
-    displayName: 'List Linux build output'
-    condition: eq( variables['Agent.OS'], 'Linux' )
-    continueOnError: true
-
   - publish: $(LINUX_BUNDLE_PATH)
     artifact: debug-linux-desktop-app
     condition: and(succeeded(), eq( variables['Agent.OS'], 'Linux' ))
