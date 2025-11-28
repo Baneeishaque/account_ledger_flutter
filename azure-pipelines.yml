@@ -33,6 +33,16 @@ steps:
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     displayName: Project Specific Gradle Cache
 
+  - task: Cache@2.198.0
+    inputs:
+      key: 'androidSdk | "$(Agent.OS)" | "$(FLUTTER_VERSION)"'
+      restoreKeys: |
+        androidSdk | "$(Agent.OS)"
+        androidSdk
+      path: $(ANDROID_SDK_ROOT)
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: Android SDK Cache
+
   - task: JavaToolInstaller@0
     inputs:
       versionSpec: '11'
