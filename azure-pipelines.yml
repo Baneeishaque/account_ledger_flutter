@@ -13,7 +13,7 @@ pool:
 variables:
   #  GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
   FLUTTER_CHANNEL: stable
-  FLUTTER_VERSION: 3.24.0
+  FLUTTER_VERSION: 3.35.2
 
 steps:
   #  - task: Cache@2
@@ -99,7 +99,7 @@ steps:
     inputs:
       target: 'web'
       projectDirectory: '.'
-      debugMode: false
+      debugMode: true
     displayName: Build Web on Windows
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
