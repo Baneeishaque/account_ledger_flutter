@@ -3,7 +3,7 @@ strategy:
     linux:
       imageName: 'ubuntu-22.04'
     mac:
-      imageName: 'macOS-12'
+      imageName: 'macOS-15'
     windows:
       imageName: 'windows-latest'
 
@@ -12,8 +12,8 @@ pool:
 
 variables:
   #  GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
-  FLUTTER_CHANNEL: beta
-  FLUTTER_VERSION: 3.1.0-9.0.pre
+  FLUTTER_CHANNEL: stable
+  FLUTTER_VERSION: 3.35.2
   LINUX_BUNDLE_PATH: $(Build.SourcesDirectory)/build/linux/x64/debug/bundle
 
 steps:
@@ -36,7 +36,7 @@ steps:
 
   - task: JavaToolInstaller@0
     inputs:
-      versionSpec: '11'
+      versionSpec: '17'
       jdkArchitectureOption: 'x64'
       jdkSourceOption: 'PreInstalled'
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
