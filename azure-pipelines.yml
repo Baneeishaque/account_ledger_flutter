@@ -116,7 +116,6 @@ steps:
       target: 'desktop (linux)'
       projectDirectory: '.'
       debugMode: true
-      splitPerAbi: true
     displayName: Build Desktop on Linux
     condition: eq( variables['Agent.OS'], 'Linux' )
 
@@ -125,13 +124,19 @@ steps:
       target: 'desktop (macos)'
       projectDirectory: '.'
       debugMode: true
-      splitPerAbi: true
     displayName: Build Desktop on macOS
     condition: eq( variables['Agent.OS'], 'Darwin' )
 
+  - script: |
+      echo "Listing Linux build output..."
+      find $(Build.SourcesDirectory)/build/linux -type f 2>/dev/null || echo "No linux build directory found"
+    displayName: 'List Linux build output'
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    continueOnError: true
+
   - publish: $(Build.SourcesDirectory)/build/linux/x64/debug/bundle
     artifact: Debug Linux Desktop App
-    condition: eq( variables['Agent.OS'], 'Linux' )
+    condition: and(succeeded(), eq( variables['Agent.OS'], 'Linux' ))
     displayName: Publish Linux Desktop App
 
 #  - script: 'tree /f /a $(Build.SourcesDirectory)/build/'
