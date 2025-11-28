@@ -1,7 +1,7 @@
 # Account Ledger Flutter
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/Baneeishaque/account_ledger_flutter/blob/master/LICENSE)
-[![Flutter](https://img.shields.io/badge/Flutter-3.1.0--beta-blue.svg)](https://flutter.dev/)
+[![Flutter](https://img.shields.io/badge/Flutter-3.1.0--9.0.pre--beta-blue.svg)](https://flutter.dev/)
 [![Dart](https://img.shields.io/badge/Dart-2.18.0+-blue.svg)](https://dart.dev/)
 [![Build Status](https://dev.azure.com/banaborkardev/account-ledger/_apis/build/status/Baneeishaque.account_ledger_flutter?branchName=master)](https://dev.azure.com/banaborkardev/account-ledger/_build/latest?definitionId=1&branchName=master)
 
@@ -43,7 +43,7 @@ A cross-platform account ledger application built with Flutter, supporting Andro
 
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| Flutter | 3.1.0-9.0.pre (beta) | Cross-platform UI framework |
+| Flutter | 3.1.0-9.0.pre-beta | Cross-platform UI framework |
 | Dart | >=2.18.0-165.1.beta <3.0.0 | Programming language |
 | Kotlin | JDK 7 | Android native code |
 | Swift | Latest | iOS/macOS native code |
@@ -93,7 +93,7 @@ Before you begin, ensure you have the following installed:
 
 ### Required Tools
 
-- **Flutter SDK** (version 3.1.0-9.0.pre-beta or later)
+- **Flutter SDK** (version 3.1.0-9.0.pre-beta recommended)
 - **Dart SDK** (version 2.18.0 or later - comes with Flutter)
 - **Git** (for cloning the repository)
 
@@ -392,7 +392,7 @@ The project uses Azure Pipelines for continuous integration and delivery.
 The CI pipeline (`azure-pipelines.yml`) is configured to:
 
 1. Run on Ubuntu 22.04, macOS 14, and Windows latest
-2. Install Flutter SDK (beta channel, version 3.1.0-9.0.pre)
+2. Install Flutter SDK (beta channel, version 3.1.0-9.0.pre-beta)
 3. Build platform-specific artifacts
 4. Publish debug APKs as pipeline artifacts
 
