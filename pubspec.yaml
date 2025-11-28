@@ -40,10 +40,7 @@ dependencies:
       ref: null-safety
   http: ^0.13.4
   getwidget: ^3.0.1
-  minimize_app:
-    git:
-      url: https://github.com/Vanethos/minimize_app_plugin.git
-      ref: 1.0.0-nullsafety.0
+  flutter_app_minimizer_plus: ^1.0.0
   universal_platform: ^1.0.0+1
   universal_io: ^2.0.4
   window_size:
