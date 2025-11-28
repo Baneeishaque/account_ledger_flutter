@@ -118,8 +118,25 @@ steps:
     condition: eq( variables['Agent.OS'], 'Linux' )
 
   - script: |
+      set -e
       flutter config --enable-linux-desktop
       flutter build linux --debug
+      
+      # Validate that the build output exists
+      BUNDLE_PATH="$(Build.SourcesDirectory)/build/linux/x64/debug/bundle"
+      if [ ! -d "$BUNDLE_PATH" ]; then
+        echo "##[error]Build failed: Linux desktop bundle directory not found at $BUNDLE_PATH"
+        exit 1
+      fi
+      
+      # Check that the bundle is not empty
+      if [ -z "$(ls -A "$BUNDLE_PATH")" ]; then
+        echo "##[error]Build failed: Linux desktop bundle directory is empty at $BUNDLE_PATH"
+        exit 1
+      fi
+      
+      echo "Linux desktop build completed successfully. Bundle contents:"
+      ls -la "$BUNDLE_PATH"
     displayName: Build Desktop on Linux
     condition: eq( variables['Agent.OS'], 'Linux' )
 
