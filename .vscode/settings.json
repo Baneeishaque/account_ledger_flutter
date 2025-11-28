@@ -1,10 +1,1 @@
-{
-    "workbench.colorCustomizations": {
-        "editor.lineHighlightBackground": "#1073cf2d",
-        "editor.lineHighlightBorder": "#9fced11f",
-        "activityBar.background": "#452043",
-        "titleBar.activeBackground": "#612C5D",
-        "titleBar.activeForeground": "#FCF9FC"
-    },
-    "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${appName} ${separator} [Branch: master]"
-}
+{}
