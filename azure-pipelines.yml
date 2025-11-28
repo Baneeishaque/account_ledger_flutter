@@ -201,6 +201,11 @@ steps:
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     displayName: Publish APK for x86_64 on Windows
 
+  - publish: $(Build.SourcesDirectory)/build/macos/Build/Products/Debug/account_ledger_flutter.app
+    artifact: Debug App for macOS
+    condition: eq( variables['Agent.OS'], 'Darwin' )
+    displayName: Publish Desktop App on macOS
+
 #  - publish: $(Build.SourcesDirectory)/build/ios/ipa/app.ipa
 #    artifact: Debug IPA for iOS
 #    condition: eq( variables['Agent.OS'], 'Darwin' )
