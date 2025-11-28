@@ -11,27 +11,40 @@ pool:
   vmImage: $(imageName)
 
 variables:
-  #  GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
+  GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
+  PUB_CACHE: $(Pipeline.Workspace)/.pub-cache
   FLUTTER_CHANNEL: beta
   FLUTTER_VERSION: 3.1.0-9.0.pre
 
 steps:
-  #  - task: Cache@2
-  #    inputs:
-  #      key: 'gradleUserHome | "$(Agent.OS)" | **/build.gradle'
-  #      restoreKeys: |
-  #        gradleUserHome | "$(Agent.OS)"
-  #        gradleUserHome
-  #      path: $(GRADLE_USER_HOME)
-  #    displayName: Gradle User Home Cache
-
-  - task: Cache@2.198.0
+  - task: Cache@2
     inputs:
-      key: 'projectSpecificGradleCache | "$(Agent.OS)"'
-      restoreKeys: projectSpecificGradleCache
+      key: 'gradle | "$(Agent.OS)" | android/build.gradle | android/app/build.gradle'
+      restoreKeys: |
+        gradle | "$(Agent.OS)"
+        gradle
+      path: $(GRADLE_USER_HOME)
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: Gradle User Home Cache
+
+  - task: Cache@2
+    inputs:
+      key: 'gradleProjectCache | "$(Agent.OS)" | android/build.gradle | android/app/build.gradle'
+      restoreKeys: |
+        gradleProjectCache | "$(Agent.OS)"
+        gradleProjectCache
       path: $(Build.SourcesDirectory)/android/.gradle
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     displayName: Project Specific Gradle Cache
+
+  - task: Cache@2
+    inputs:
+      key: 'flutterPubCache | "$(Agent.OS)" | pubspec.yaml | pubspec.lock'
+      restoreKeys: |
+        flutterPubCache | "$(Agent.OS)"
+        flutterPubCache
+      path: $(PUB_CACHE)
+    displayName: Flutter Pub Cache
 
   - task: JavaToolInstaller@0
     inputs:
@@ -40,30 +53,12 @@ steps:
       jdkSourceOption: 'PreInstalled'
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
-  #  - task: Cache@2
-  #    inputs:
-  #      key: 'flutterSdk | "$(Agent.OS)"'
-  #      restoreKeys: |
-  #        flutterSdk | "$(Agent.OS)"
-  #        flutterSdk
-  #      path: 'C:/hostedtoolcache/windows/Flutter/$(FLUTTER_VERSION)/windows/flutter'
-  #    displayName: Flutter SDK Cache
-
   - task: FlutterInstall@0
     inputs:
       mode: 'auto'
       channel: '$(FLUTTER_CHANNEL)'
       version: 'custom'
       customVersion: '$(FLUTTER_VERSION)'
-
-  #  - task: Cache@2
-  #    inputs:
-  #      key: 'flutterPubCache | "$(Agent.OS)" | **/pubspec.yaml'
-  #      restoreKeys: |
-  #        flutterPubCache | "$(Agent.OS)"
-  #        flutterPubCache
-  #      path: '$(FlutterPubCachePath)'
-  #    displayName: Flutter Pub System Cache
 
   - task: FlutterBuild@0
     inputs:
