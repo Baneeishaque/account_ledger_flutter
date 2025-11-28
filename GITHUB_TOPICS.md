@@ -100,9 +100,21 @@ choco install gh
 # Windows (with Scoop)
 scoop install gh
 
-# Ubuntu/Debian
-curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli-stable.list > /dev/null
+# Ubuntu/Debian (Using snap - simplest method)
+sudo snap install gh
+
+# Ubuntu/Debian (Using apt - alternative method)
+# Step 1: Download the GPG key
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+  | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+
+# Step 2: Add the repository
+echo "deb [arch=$(dpkg --print-architecture) \
+  signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] \
+  https://cli.github.com/packages stable main" \
+  | sudo tee /etc/apt/sources.list.d/github-cli-stable.list > /dev/null
+
+# Step 3: Install
 sudo apt update
 sudo apt install gh
 ```
