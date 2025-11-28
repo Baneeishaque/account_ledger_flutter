@@ -6,7 +6,7 @@ import 'package:universal_platform/universal_platform.dart';
 class AppUtils {
   static void closeApp() {
     if (UniversalPlatform.isAndroid) {
-      FlutterAppMinimizerPlus.minimize();
+      FlutterAppMinimizerPlus.minimizeApp();
     } else if (UniversalPlatform.isIOS) {
       // iOS doesn't support app minimization, use system navigation
       SystemChannels.platform.invokeMethod('SystemNavigator.pop');
