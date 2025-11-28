@@ -112,6 +112,15 @@ steps:
     displayName: Build Desktop on Windows
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
+  - task: Cache@2
+    inputs:
+      key: 'apt | "$(Agent.OS)" | linux-desktop-deps'
+      path: /var/cache/apt/archives
+      restoreKeys: |
+        apt | "$(Agent.OS)"
+    displayName: Cache apt packages
+    condition: eq( variables['Agent.OS'], 'Linux' )
+
   - script: |
       set -e
       sudo apt-get update -y
@@ -125,20 +134,19 @@ steps:
       flutter build linux --debug
       
       # Validate that the build output exists
-      BUNDLE_PATH="$(LINUX_BUNDLE_PATH)"
-      if [ ! -d "$BUNDLE_PATH" ]; then
-        echo "##[error]Build failed: Linux desktop bundle directory not found at $BUNDLE_PATH"
+      if [ ! -d "$(LINUX_BUNDLE_PATH)" ]; then
+        echo "##[error]Build failed: Linux desktop bundle directory not found at $(LINUX_BUNDLE_PATH)"
         exit 1
       fi
       
       # Check that the bundle is not empty
-      if [ -z "$(ls -A "$BUNDLE_PATH")" ]; then
-        echo "##[error]Build failed: Linux desktop bundle directory is empty at $BUNDLE_PATH"
+      if [ -z "$(ls -A "$(LINUX_BUNDLE_PATH)")" ]; then
+        echo "##[error]Build failed: Linux desktop bundle directory is empty at $(LINUX_BUNDLE_PATH)"
         exit 1
       fi
       
       echo "Linux desktop build completed successfully. Bundle contents:"
-      ls -la "$BUNDLE_PATH"
+      ls -la "$(LINUX_BUNDLE_PATH)"
     displayName: Build Desktop on Linux
     condition: eq( variables['Agent.OS'], 'Linux' )
 
@@ -223,7 +231,7 @@ steps:
     displayName: Publish APK for ARM64-v8A on Windows
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-x86_64-debug.apk
-    artifact: debug-apk-x86-64
+    artifact: debug-apk-x86_64
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     displayName: Publish APK for x86_64 on Windows
 
