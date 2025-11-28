@@ -14,6 +14,7 @@ variables:
   #  GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
   FLUTTER_CHANNEL: beta
   FLUTTER_VERSION: 3.1.0-9.0.pre
+  LINUX_BUNDLE_PATH: $(Build.SourcesDirectory)/build/linux/x64/debug/bundle
 
 steps:
   #  - task: Cache@2
@@ -123,7 +124,7 @@ steps:
       flutter build linux --debug
       
       # Validate that the build output exists
-      BUNDLE_PATH="$(Build.SourcesDirectory)/build/linux/x64/debug/bundle"
+      BUNDLE_PATH="$(LINUX_BUNDLE_PATH)"
       if [ ! -d "$BUNDLE_PATH" ]; then
         echo "##[error]Build failed: Linux desktop bundle directory not found at $BUNDLE_PATH"
         exit 1
@@ -150,12 +151,12 @@ steps:
 
   - script: |
       echo "Listing Linux build output..."
-      find $(Build.SourcesDirectory)/build/linux -type f 2>/dev/null || echo "No linux build directory found"
+      find $(LINUX_BUNDLE_PATH) -type f 2>/dev/null || echo "No linux build directory found"
     displayName: 'List Linux build output'
     condition: eq( variables['Agent.OS'], 'Linux' )
     continueOnError: true
 
-  - publish: $(Build.SourcesDirectory)/build/linux/x64/debug/bundle
+  - publish: $(LINUX_BUNDLE_PATH)
     artifact: Debug Linux Desktop App
     condition: and(succeeded(), eq( variables['Agent.OS'], 'Linux' ))
     displayName: Publish Linux Desktop App
