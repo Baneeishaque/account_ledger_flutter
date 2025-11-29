@@ -15,6 +15,14 @@ variables:
   FLUTTER_CHANNEL: stable
   FLUTTER_VERSION: 3.35.2
 
+parameters:
+  - name: webBuilds
+    type: object
+    default:
+      - type: Debug
+      - type: Profile
+      - type: Release
+
 steps:
   #  - task: Cache@2
   #    inputs:
@@ -95,43 +103,24 @@ steps:
 #    displayName: 'List Contents of $Build.SourcesDirectory/build/ios/ipa folder'
 #    condition: eq( variables['Agent.OS'], 'Darwin' )
 
-  - task: FlutterBuild@0
-    inputs:
-      target: 'web'
-      projectDirectory: '.'
-      debugMode: true
-    displayName: Build Web Debug on Windows
-    condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
-  - publish: $(Build.SourcesDirectory)/build/web
-    artifact: Debug Web Build
-    condition: eq( variables['Agent.OS'], 'Windows_NT' )
-    displayName: Publish Web Debug Build on Windows
+  # Web builds (Debug, Profile, Release) using a loop for maintainability
+  - ${{ each build in parameters.webBuilds }}:
+    - task: FlutterBuild@0
+      inputs:
+        target: 'web'
+        projectDirectory: '.'
+        ${{ if eq(build.type, 'Debug') }}:
+          debugMode: true
+        ${{ if eq(build.type, 'Profile') }}:
+          profileMode: true
+      displayName: 'Build Web ${{ build.type }} on Windows'
+      condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
-  - task: FlutterBuild@0
-    inputs:
-      target: 'web'
-      projectDirectory: '.'
-      profileMode: true
-    displayName: Build Web Profile on Windows
-    condition: eq( variables['Agent.OS'], 'Windows_NT' )
-
-  - publish: $(Build.SourcesDirectory)/build/web
-    artifact: Profile Web Build
-    condition: eq( variables['Agent.OS'], 'Windows_NT' )
-    displayName: Publish Web Profile Build on Windows
-
-  - task: FlutterBuild@0
-    inputs:
-      target: 'web'
-      projectDirectory: '.'
-    displayName: Build Web Release on Windows
-    condition: eq( variables['Agent.OS'], 'Windows_NT' )
-
-  - publish: $(Build.SourcesDirectory)/build/web
-    artifact: Release Web Build
-    condition: eq( variables['Agent.OS'], 'Windows_NT' )
-    displayName: Publish Web Release Build on Windows
+    - publish: $(Build.SourcesDirectory)/build/web
+      artifact: '${{ build.type }} Web Build'
+      condition: eq( variables['Agent.OS'], 'Windows_NT' )
+      displayName: 'Publish Web ${{ build.type }} Build on Windows'
 
   - task: FlutterBuild@0
     inputs:
