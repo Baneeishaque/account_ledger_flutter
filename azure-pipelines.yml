@@ -105,22 +105,21 @@ steps:
 
 
   # Web builds (Debug, Profile, Release) using a loop for maintainability
-  - ${{ each build in parameters.webBuilds }}:
-    - task: FlutterBuild@0
-      inputs:
-        target: 'web'
-        projectDirectory: '.'
-        ${{ if eq(build.type, 'Debug') }}:
-          debugMode: true
-        ${{ if eq(build.type, 'Profile') }}:
-          profileMode: true
-      displayName: 'Build Web ${{ build.type }} on Windows'
-      condition: eq( variables['Agent.OS'], 'Windows_NT' )
+  - ${{ if eq(variables['Agent.OS'], 'Windows_NT') }}:
+      - ${{ each build in parameters.webBuilds }}:
+          - task: FlutterBuild@0
+            inputs:
+              target: 'web'
+              projectDirectory: '.'
+              ${{ if eq(build.type, 'Debug') }}:
+                debugMode: true
+              ${{ if eq(build.type, 'Profile') }}:
+                profileMode: true
+            displayName: 'Build Web ${{ build.type }} on Windows'
 
-    - publish: $(Build.SourcesDirectory)/build/web
-      artifact: '${{ build.type }} Web Build'
-      condition: eq( variables['Agent.OS'], 'Windows_NT' )
-      displayName: 'Publish Web ${{ build.type }} Build on Windows'
+          - publish: $(Build.SourcesDirectory)/build/web
+            artifact: '${{ build.type }} Web Build'
+            displayName: 'Publish Web ${{ build.type }} Build on Windows'
 
   - task: FlutterBuild@0
     inputs:
