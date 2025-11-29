@@ -32,3 +32,4 @@ class TestYAMLValidation(unittest.TestCase):
                         self.assertIsNotNone(data)
                     except yaml.YAMLError as e:
                         self.fail(f"Invalid YAML in {yaml_file}: {e}")
+34r .sed-tmp
