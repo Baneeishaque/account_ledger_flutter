@@ -1,5 +1,11 @@
 # Copilot Instructions for AI Agents
 
+## Branch Safety for Review Tasks
+
+**Always ensure you are on the correct feature or pull request branch (not master) before implementing any review feedback or making changes related to code reviews.**
+
+This ensures all edits are applied to the intended branch for the active pull request and not to the main branch by mistake.
+
 ## Project Overview
 
 This is a Flutter-based cross-platform application for account ledger management. The codebase is structured for Android, iOS, web, macOS, Linux, and Windows targets. The main business logic and UI are in the `lib/` directory.
