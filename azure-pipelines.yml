@@ -33,7 +33,7 @@ steps:
   #      path: $(GRADLE_USER_HOME)
   #    displayName: Gradle User Home Cache
 
-  - task: Cache@2.198.0
+  - task: Cache@2
     inputs:
       key: 'projectSpecificGradleCache | "$(Agent.OS)"'
       restoreKeys: projectSpecificGradleCache
@@ -48,14 +48,15 @@ steps:
       jdkSourceOption: 'PreInstalled'
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
-  #  - task: Cache@2
-  #    inputs:
-  #      key: 'flutterSdk | "$(Agent.OS)"'
-  #      restoreKeys: |
-  #        flutterSdk | "$(Agent.OS)"
-  #        flutterSdk
-  #      path: 'C:/hostedtoolcache/windows/Flutter/$(FLUTTER_VERSION)/windows/flutter'
-  #    displayName: Flutter SDK Cache
+  - task: Cache@2
+    inputs:
+      key: 'flutterSdk | "$(Agent.OS)" | "$(FLUTTER_VERSION)" | "$(FLUTTER_CHANNEL)"'
+      restoreKeys: |
+        flutterSdk | "$(Agent.OS)" | "$(FLUTTER_VERSION)"
+        flutterSdk | "$(Agent.OS)"
+      path: $(Agent.ToolsDirectory)/Flutter
+      cacheHitVar: FLUTTER_CACHE_RESTORED
+    displayName: Flutter SDK Cache
 
   - task: FlutterInstall@0
     inputs:
@@ -63,6 +64,31 @@ steps:
       channel: '$(FLUTTER_CHANNEL)'
       version: 'custom'
       customVersion: '$(FLUTTER_VERSION)'
+    condition: ne(variables.FLUTTER_CACHE_RESTORED, 'true')
+
+  # Set FlutterToolPath when cache is restored (Windows)
+  - powershell: |
+      $flutterPath = "$(Agent.ToolsDirectory)\Flutter\$(FLUTTER_VERSION)\windows\flutter\bin"
+      Write-Host "##vso[task.setvariable variable=FlutterToolPath]$flutterPath"
+      Write-Host "Flutter SDK restored from cache at: $flutterPath"
+    displayName: Set Flutter Path from Cache (Windows)
+    condition: and(eq(variables.FLUTTER_CACHE_RESTORED, 'true'), eq(variables['Agent.OS'], 'Windows_NT'))
+
+  # Set FlutterToolPath when cache is restored (Linux)
+  - bash: |
+      FLUTTER_PATH="$(Agent.ToolsDirectory)/Flutter/$(FLUTTER_VERSION)/linux/flutter/bin"
+      echo "##vso[task.setvariable variable=FlutterToolPath]$FLUTTER_PATH"
+      echo "Flutter SDK restored from cache at: $FLUTTER_PATH"
+    displayName: Set Flutter Path from Cache (Linux)
+    condition: and(eq(variables.FLUTTER_CACHE_RESTORED, 'true'), eq(variables['Agent.OS'], 'Linux'))
+
+  # Set FlutterToolPath when cache is restored (macOS)
+  - bash: |
+      FLUTTER_PATH="$(Agent.ToolsDirectory)/Flutter/$(FLUTTER_VERSION)/macos/flutter/bin"
+      echo "##vso[task.setvariable variable=FlutterToolPath]$FLUTTER_PATH"
+      echo "Flutter SDK restored from cache at: $FLUTTER_PATH"
+    displayName: Set Flutter Path from Cache (macOS)
+    condition: and(eq(variables.FLUTTER_CACHE_RESTORED, 'true'), eq(variables['Agent.OS'], 'Darwin'))
 
   #  - task: Cache@2
   #    inputs:
