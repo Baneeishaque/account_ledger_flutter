@@ -1,0 +1,100 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, macos-14, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    env:
+      FLUTTER_CHANNEL: stable
+      FLUTTER_VERSION: 3.35.2
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java (Windows only)
+        if: runner.os == 'Windows'
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Android APK build (Windows only)
+      - name: Build APK
+        if: runner.os == 'Windows'
+        run: flutter build apk --debug --split-per-abi
+
+      # Web builds (Windows only)
+      - name: Build Web Debug
+        if: runner.os == 'Windows'
+        run: flutter build web --debug
+      - name: Upload Web Debug Artifact
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-debug
+          path: build/web
+
+      - name: Build Web Profile
+        if: runner.os == 'Windows'
+        run: flutter build web --profile
+      - name: Upload Web Profile Artifact
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-profile
+          path: build/web
+
+      - name: Build Web Release
+        if: runner.os == 'Windows'
+        run: flutter build web --release
+      - name: Upload Web Release Artifact
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-release
+          path: build/web
+
+      # Desktop builds
+      - name: Build Windows Desktop
+        if: runner.os == 'Windows'
+        run: flutter build windows --debug
+
+      - name: Build Linux Desktop
+        if: runner.os == 'Linux'
+        run: flutter build linux --debug --split-per-abi
+
+      - name: Build macOS Desktop
+        if: runner.os == 'macOS'
+        run: flutter build macos --debug --split-per-abi
+
+      # Publish APK artifacts (Windows only)
+      - name: Upload APKs
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk-debug
+          path: |
+            build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
+            build/app/outputs/apk/debug/app-arm64-v8a-debug.apk
+            build/app/outputs/apk/debug/app-x86_64-debug.apk
+
+      # Add more upload-artifact steps as needed for other platforms
