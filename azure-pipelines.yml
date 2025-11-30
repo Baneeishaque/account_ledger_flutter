@@ -138,13 +138,12 @@ steps:
     displayName: Build Desktop on Linux
     condition: eq( variables['Agent.OS'], 'Linux' )
 
-  - task: FlutterBuild@0
-    inputs:
-      target: 'desktop (macos)'
-      projectDirectory: '.'
-      debugMode: true
-      splitPerAbi: true
+  - script: flutter build macos --debug
     displayName: Build Desktop on macOS
+    condition: eq( variables['Agent.OS'], 'Darwin' )
+
+  - script: 'ls -la $(Build.SourcesDirectory)/build/macos/Build/Products/Debug/'
+    displayName: List macOS Build Output
     condition: eq( variables['Agent.OS'], 'Darwin' )
 
 #  - script: 'tree /f /a $(Build.SourcesDirectory)/build/'
@@ -218,6 +217,11 @@ steps:
     artifact: Debug Apk for x86_64
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     displayName: Publish APK for x86_64 on Windows
+
+  - publish: $(Build.SourcesDirectory)/build/macos/Build/Products/Debug/account_ledger_flutter.app
+    artifact: Debug App for macOS
+    condition: eq( variables['Agent.OS'], 'Darwin' )
+    displayName: Publish Desktop App on macOS
 
 #  - publish: $(Build.SourcesDirectory)/build/ios/ipa/app.ipa
 #    artifact: Debug IPA for iOS
