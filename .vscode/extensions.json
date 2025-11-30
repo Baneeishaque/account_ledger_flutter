@@ -1,0 +1,16 @@
+{
+    "recommendations": [
+        "renypaul.ado-pipeline-navigator",
+        "anonknowsit.azure-devops-pipeline-viewer",
+        "ms-azure-devops.azure-pipelines",
+        "terwoordcomputers.azure-pipelines-overview",
+        "pedrocaetano.azure-pipeline-runner",
+        "christopherhx.azure-pipelines-vscode-ext",
+        "cristiparaschiv.azure-yaml-pipelines"
+    ],
+    "dependencies": {
+        "terwoordcomputers.azure-pipelines-overview": [
+            "ms-azure-devops.azure-pipelines"
+        ]
+    }
+}
