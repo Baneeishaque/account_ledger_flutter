@@ -14,6 +14,7 @@ variables:
   #  GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
   FLUTTER_CHANNEL: stable
   FLUTTER_VERSION: 3.35.2
+  LINUX_BUNDLE_PATH: $(Build.SourcesDirectory)/build/linux/x64/debug/bundle
 
 parameters:
   - name: webBuilds
@@ -129,12 +130,41 @@ steps:
     displayName: Build Desktop on Windows
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
-  - task: FlutterBuild@0
+  - task: Cache@2
     inputs:
-      target: 'desktop (linux)'
-      projectDirectory: '.'
-      debugMode: true
-      splitPerAbi: true
+      key: 'apt | "$(Agent.OS)" | linux-desktop-deps'
+      path: /var/cache/apt/archives
+      restoreKeys: |
+        apt | "$(Agent.OS)"
+    displayName: Cache apt packages
+    condition: eq( variables['Agent.OS'], 'Linux' )
+
+  - script: |
+      set -e
+      sudo apt-get update -y
+      sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+    displayName: Install Linux Desktop Dependencies
+    condition: eq( variables['Agent.OS'], 'Linux' )
+
+  - script: |
+      set -e
+      flutter config --enable-linux-desktop
+      flutter build linux --debug
+      
+      # Validate that the build output exists
+      if [ ! -d "$(LINUX_BUNDLE_PATH)" ]; then
+        echo "##[error]Build failed: Linux desktop bundle directory not found at $(LINUX_BUNDLE_PATH)"
+        exit 1
+      fi
+      
+      # Check that the bundle is not empty
+      if [ -z "$(ls -A "$(LINUX_BUNDLE_PATH)")" ]; then
+        echo "##[error]Build failed: Linux desktop bundle directory is empty at $(LINUX_BUNDLE_PATH)"
+        exit 1
+      fi
+      
+      echo "Linux desktop build completed successfully. Bundle contents:"
+      ls -la "$(LINUX_BUNDLE_PATH)"
     displayName: Build Desktop on Linux
     condition: eq( variables['Agent.OS'], 'Linux' )
 
@@ -143,9 +173,13 @@ steps:
       target: 'desktop (macos)'
       projectDirectory: '.'
       debugMode: true
-      splitPerAbi: true
     displayName: Build Desktop on macOS
     condition: eq( variables['Agent.OS'], 'Darwin' )
+
+  - publish: $(LINUX_BUNDLE_PATH)
+    artifact: debug-linux-desktop-app
+    condition: and(succeeded(), eq( variables['Agent.OS'], 'Linux' ))
+    displayName: Publish Linux Desktop App
 
 #  - script: 'tree /f /a $(Build.SourcesDirectory)/build/'
 #    displayName: 'Tree view of build folder'
@@ -205,21 +239,21 @@ steps:
   #   displayName: 'Search for pub Folder in D:'
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-armeabi-v7a-debug.apk
-    artifact: Debug Apk for armeabi-v7a
+    artifact: debug-apk-armeabi-v7a
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     displayName: Publish APK for ARM-EABI-v7A on Windows
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-arm64-v8a-debug.apk
-    artifact: Debug Apk for arm64-v8a
+    artifact: debug-apk-arm64-v8a
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     displayName: Publish APK for ARM64-v8A on Windows
 
   - publish: $(Build.SourcesDirectory)/build/app/outputs/apk/debug/app-x86_64-debug.apk
-    artifact: Debug Apk for x86_64
+    artifact: debug-apk-x86_64
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     displayName: Publish APK for x86_64 on Windows
 
 #  - publish: $(Build.SourcesDirectory)/build/ios/ipa/app.ipa
-#    artifact: Debug IPA for iOS
+#    artifact: debug-ipa-ios
 #    condition: eq( variables['Agent.OS'], 'Darwin' )
 #    displayName: Publish IPA on macOS
