@@ -120,9 +120,7 @@ steps:
     displayName: Build Desktop on Linux
     condition: eq( variables['Agent.OS'], 'Linux' )
 
-  - script: |
-      flutter pub get
-      flutter build macos --debug
+  - script: flutter build macos --debug
     displayName: Build Desktop on macOS
     condition: eq( variables['Agent.OS'], 'Darwin' )
 
