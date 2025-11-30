@@ -103,6 +103,15 @@ steps:
 #    displayName: 'List Contents of $Build.SourcesDirectory/build/ios/ipa folder'
 #    condition: eq( variables['Agent.OS'], 'Darwin' )
 
+  - script: $(FlutterToolPath)/flutter build web --wasm
+    displayName: Build Web with WebAssembly on Windows
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    failOnStderr: false
+    
+  - publish: $(Build.SourcesDirectory)/build/web
+    artifact: Web Build with WebAssembly
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: Publish Web with WebAssembly on Windows
 
   # Web builds (Debug, Profile, Release) using a loop for maintainability
   - ${{ if eq(variables['Agent.OS'], 'Windows_NT') }}:
