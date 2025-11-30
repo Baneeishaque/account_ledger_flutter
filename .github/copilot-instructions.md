@@ -4,7 +4,7 @@
 
 **Always ensure you are on the correct feature or pull request branch (not master) before implementing any review feedback or making changes related to code reviews.**
 
-This ensures all edits are applied to the intended branch for the active pull request and not to the main branch by mistake.
+This ensures all edits are applied to the intended branch for the active pull request and not to the main branch mistakenly.
 
 ## Project Overview
 
