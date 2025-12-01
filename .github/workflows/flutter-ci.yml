@@ -48,7 +48,7 @@ jobs:
         run: flutter build web --debug
       - name: Upload Web Debug Artifact
         if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: web-debug
           path: build/web
@@ -58,7 +58,7 @@ jobs:
         run: flutter build web --profile
       - name: Upload Web Profile Artifact
         if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: web-profile
           path: build/web
@@ -68,7 +68,7 @@ jobs:
         run: flutter build web --release
       - name: Upload Web Release Artifact
         if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: web-release
           path: build/web
@@ -89,7 +89,7 @@ jobs:
       # Publish APK artifacts (Windows only)
       - name: Upload APKs
         if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: apk-debug
           path: |
